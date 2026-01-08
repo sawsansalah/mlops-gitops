@@ -1,5 +1,3 @@
-# Garage minimal config for kind + LMDB + Ingress
-
 garage:
   dbEngine: "lmdb"
   replicationFactor: "1"
@@ -10,18 +8,9 @@ garage:
 deployment:
   kind: StatefulSet
   replicaCount: 1
-  podManagementPolicy: OrderedReady
 
 persistence:
-  enabled: false  # key: emptyDir will be used internally
-
-image:
-  repository: dxflrs/amd64_garage
-  tag: ""  # use chart default
-  pullPolicy: IfNotPresent
-
-serviceAccount:
-  create: true
+  enabled: false  # <-- crucial
 
 service:
   type: ClusterIP
@@ -42,8 +31,6 @@ ingress:
           paths:
             - path: /
               pathType: Prefix
-      tls: []
-
   web:
     enabled: true
     annotations:
@@ -53,12 +40,3 @@ ingress:
         paths:
           - path: /
             pathType: Prefix
-    tls: []
-
-monitoring:
-  metrics:
-    enabled: false
-  tracing:
-    sink: ""
-  grafanaDashboard:
-    enabled: false
