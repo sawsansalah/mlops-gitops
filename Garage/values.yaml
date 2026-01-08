@@ -9,8 +9,10 @@ deployment:
   kind: StatefulSet
   replicaCount: 1
 
+# <<< CRUCIAL >>>
 persistence:
-  enabled: false  # <-- crucial
+  enabled: false  # disables PVC / hostPath entirely
+  # emptyDir will be used internally by the chart
 
 service:
   type: ClusterIP
