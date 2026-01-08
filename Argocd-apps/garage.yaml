@@ -14,7 +14,8 @@ spec:
       helm:
         valueFiles:
           - $values/Garage/values.yaml
-    - repoURL: 
+    - repoURL: https://github.com/sawsansalah/mlops-gitops.git
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
