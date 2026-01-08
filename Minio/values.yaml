@@ -1,14 +1,12 @@
-replicaCount: 1
+mode: standalone
 
-accessKey: minioadmin
-secretKey: minioadmin
+rootUser: "admin"
+rootPassword: "admin@12345"
+
 
 persistence:
   enabled: false   # ephemeral for local dev
   size: 10Gi
-
-service:
-  type: ClusterIP
 
 ingress:
   enabled: true
@@ -18,3 +16,27 @@ ingress:
   path: /
   hosts:
     - s3-minio.local
+
+
+consoleIngress:
+  enabled: true
+  ingressClassName: nginx
+  labels: {}
+  annotations: {}
+  path: /
+  hosts:
+    - console-minio.local
+
+
+resources:
+  requests:
+    memory: "2Gi"
+    cpu: "500m"
+  limits:
+    memory: "3Gi"
+    cpu: "1000m"  
+
+users:
+  - accessKey: devops
+    secretKey: admin@12345
+    policy: consoleAdmin
