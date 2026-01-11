@@ -2,26 +2,26 @@ service:
   type: ClusterIP
   port: 5000
 
-persistence:
-  enabled: true
-  size: 10Gi
-  storageClass: ""
+backendStore:
+  databaseConnectionCheck: false
+  databaseMigration: false
+
+artifactRoot:
+  proxiedArtifactStorage: true
+
+extraVolumes:
+  - name: mlflow-data
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: mlflow-data
+    mountPath: /mlflow
 
 strategy:
   type: Recreate
 
-backendStore:
-  databaseMigration: true
-  filepath: /mlflow/data/mlflow.db
-
-artifactRoot:
-  proxiedArtifactStorage: true
-  filesystem:
-    path: /mlflow/data/mlartifacts
-
 ingress:
   enabled: true
-  className: "nginx" # Add your ingress class if needed (e.g., nginx)
   hosts:
     - host: mlflow.local
       paths:
