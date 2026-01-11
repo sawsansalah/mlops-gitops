@@ -6,17 +6,15 @@ backendStore:
   databaseConnectionCheck: false
   databaseMigration: false
 
-
 artifactRoot:
   proxiedArtifactStorage: true
 
-extraVolumes:
-  - name: mlflow-data
-    emptyDir: {}
+extraEnvVars:
+  - name: MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS
+    value: "true"
 
-extraVolumeMounts:
-  - name: mlflow-data
-    mountPath: /mlflow
+strategy:
+  type: Recreate
 
 ingress:
   enabled: true
