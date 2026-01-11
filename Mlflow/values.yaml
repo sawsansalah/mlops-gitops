@@ -22,7 +22,10 @@ strategy:
 
 ingress:
   enabled: true
-  className: nginx  # Explicitly set nginx
-  path: /
+  className: nginx
+
   hosts:
-    - s3-minio.local
+    - host: mlflow.local
+      paths:
+        - path: /
+          pathType: Prefix
