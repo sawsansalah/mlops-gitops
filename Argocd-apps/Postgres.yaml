@@ -14,26 +14,26 @@ spec:
     targetRevision: 16.3.2
     helm:
       values: |
-        global:
-          security:/Users/sawsan/mlops/mlflow-installation/Argocd-apps/mlflow.yaml
-            allowInsecureImages: true
-        
-        image:
-          registry: docker.io
-          repository: bitnamilegacy/postgresql
-          tag: 16.3.0-debian-12-r5
-          pullPolicy: IfNotPresent
-        
-        auth:
-          postgresPassword: postgres
-          username: mlflow
-          password: mlflow123
-          database: mlflow
+                  global:
+                    security:
+                      allowInsecureImages: true
+                  
+                  image:
+                    registry: docker.io
+                    repository: bitnamilegacy/postgresql
+                    tag: 16.3.0-debian-12-r5
+                    pullPolicy: IfNotPresent
+                  
+                  auth:
+                    postgresPassword: postgres
+                    username: mlflow
+                    password: mlflow123
+                    database: mlflow
 
-        primary:
-          persistence:
-            enabled: true
-            size: 5Gi
+                  primary:
+                    persistence:
+                      enabled: true
+                      size: 5Gi
 
   destination:
     server: https://kubernetes.default.svc
