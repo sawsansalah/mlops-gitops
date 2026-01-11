@@ -24,6 +24,7 @@ extraVolumeMounts:
 # Environment variables
 extraEnvVars:
   MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS: "true"
+  MLFLOW_SERVER_DISABLE_SECURITY_MIDDLEWARE: "true"
 
 # Deployment strategy
 strategy:
@@ -49,6 +50,4 @@ ingress:
 extraArgs:
   host: "0.0.0.0"
   port: "5000"
-  disable-security-middleware: "true"
-  allowed-hosts: "mlflow.local,localhost,127.0.0.1"
   cors-allowed-origins: "https://mlflow.local,http://mlflow.local"
