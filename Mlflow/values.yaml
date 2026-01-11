@@ -5,13 +5,6 @@ service:
 backendStore:
   databaseConnectionCheck: false
   databaseMigration: false
-extraArgs:
-  host: "0.0.0.0"
-  port: "5000"
-  allowed-hosts: "mlflow.local"
-
-server:
-  type: uvicorn
 
 
 artifactRoot:
@@ -27,13 +20,12 @@ extraVolumeMounts:
 
 strategy:
   type: Recreate
-
 ingress:
   enabled: true
-  className: nginx
-
-  hosts:
-    - host: mlflow.local
-      paths:
-        - path: /
-          pathType: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    - hosts:
+        - mlflow.local
+      secretName: mlflow-tls
