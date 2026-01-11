@@ -29,9 +29,7 @@ spec:
           repository: "ghcr.io/mlflow/mlflow"
           tag: "v2.9.2-py310"
         
-        extraEnvVars:
-          - name: "MLFLOW_EXTRA_PYTHON_DEPS"
-            value: "psycopg2-binary"
+
         
         service:
           type: "ClusterIP"
