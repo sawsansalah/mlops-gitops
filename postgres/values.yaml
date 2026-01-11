@@ -1,0 +1,19 @@
+global:
+  postgresql:
+    auth:
+      postgresPassword: "postgres123"   # admin postgres password
+
+postgresql:
+  username: mlflow                     # MLflow database user
+  password: mlflow123                  # MLflow user password
+  database: mlflow_db                  # MLflow database name
+  replication:
+    enabled: false
+  service:
+    type: ClusterIP
+    port: 5432
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: ""  # Optional: set your StorageClass if needed
+
