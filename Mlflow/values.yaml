@@ -1,28 +1,40 @@
+# MLflow service
 service:
   type: ClusterIP
   port: 5000
 
+# Backend store (minimal / no migrations)
 backendStore:
   databaseConnectionCheck: false
   databaseMigration: false
 
+# Artifacts
 artifactRoot:
   proxiedArtifactStorage: true
 
+# Optional ephemeral storage for MLflow artifacts
+extraVolumes:
+  - name: mlflow-data
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: mlflow-data
+    mountPath: /mlflow
+
+# Environment variables
 extraEnvVars:
   MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS: "true"
- 
 
+# Deployment strategy
 strategy:
   type: Recreate
 
+# Ingress + TLS
 ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: "selfsigned"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Host $host;
   hosts:
     - host: mlflow.local
       paths:
@@ -32,3 +44,8 @@ ingress:
     - hosts:
         - mlflow.local
       secretName: mlflow-tls
+
+# MLflow server options (Gunicorn default)
+extraArgs:
+  host: "0.0.0.0"
+  port: "5000"
