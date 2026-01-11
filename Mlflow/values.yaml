@@ -10,8 +10,7 @@ artifactRoot:
   proxiedArtifactStorage: true
 
 extraEnvVars:
-  - name: MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS
-    value: "true"
+  MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS: "true"
 
 strategy:
   type: Recreate
