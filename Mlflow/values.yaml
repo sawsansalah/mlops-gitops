@@ -8,7 +8,6 @@ backendStore:
 extraArgs:
   host: 0.0.0.0
   port: 5000
-  proxy-fix: ""
   trusted-hosts: mlflow.local
 
 artifactRoot:
