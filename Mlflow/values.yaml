@@ -18,13 +18,16 @@ extraVolumeMounts:
   - name: mlflow-data
     mountPath: /mlflow
 
-strategy:
-  type: Recreate
 ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: "selfsigned"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: mlflow.local
+      paths:
+        - path: /
+          pathType: Prefix
   tls:
     - hosts:
         - mlflow.local
