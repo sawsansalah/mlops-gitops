@@ -49,6 +49,6 @@ ingress:
 extraArgs:
   host: "0.0.0.0"
   port: "5000"
-  --disable-security-middleware: "true"
+  disable-security-middleware: "true"
   allowed-hosts: "mlflow.local,localhost,127.0.0.1"
   cors-allowed-origins: "https://mlflow.local,http://mlflow.local"
