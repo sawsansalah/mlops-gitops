@@ -11,10 +11,7 @@ artifactRoot:
 
 extraEnvVars:
   MLFLOW_TRACKING_SERVER_ALLOW_UNSAFE_HOSTS: "true"
-extraArgs:
-  allowed-hosts: "mlflow.local"
-  host: "0.0.0.0"
-  port: "5000"   
+ 
 
 strategy:
   type: Recreate
@@ -24,6 +21,8 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "selfsigned"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Host $host;
   hosts:
     - host: mlflow.local
       paths:
