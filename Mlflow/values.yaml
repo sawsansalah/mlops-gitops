@@ -8,7 +8,7 @@ backendStore:
 extraArgs:
   host: 0.0.0.0
   port: 5000
-  trusted-hosts: mlflow.local
+  allowed-hosts: mlflow.local
 
 artifactRoot:
   proxiedArtifactStorage: true
