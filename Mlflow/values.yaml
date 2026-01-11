@@ -6,9 +6,9 @@ backendStore:
   databaseConnectionCheck: false
   databaseMigration: false
 extraArgs:
-  host: 0.0.0.0
+  host: "0.0.0.0"
   port: "5000"
-  allowed-hosts: mlflow.local
+
 
 artifactRoot:
   proxiedArtifactStorage: true
