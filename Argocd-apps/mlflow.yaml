@@ -4,14 +4,13 @@ metadata:
   name: mlflow
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   sources:
     - repoURL: https://community-charts.github.io/helm-charts
-      chart:  mlflow
+      chart: mlflow
       targetRevision: 1.8.1
-
       helm:
         valueFiles:
           - $values/Mlflow/values.yaml
