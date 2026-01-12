@@ -484,7 +484,7 @@ ingress:
       paths:
         - path: /
           # -- Ingress path type
-          pathType: prefix
+          pathType: Prefix
   # -- Ingress tls configuration for https access
   tls: []
   #  - secretName: chart-example-tls
@@ -566,7 +566,7 @@ extraVolumeMounts:
 #     name: example
 
 # -- Extra Volume Mounts for the mlflow container
-extraVolumeMounts: []
+#extraVolumeMounts: []
 # - name: mlflow-volume
 #   mountPath: /mlflow/data
 # - name: example
