@@ -1,54 +1,25 @@
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mlflow
-  namespace: argocd  # This is where the Application CR lives
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  
-  source:
-    repoURL: https://community-charts.github.io/helm-charts
-    chart: mlflow
-    targetRevision: 0.7.19
-    helm:
-      values: |
-        # PostgreSQL Configuration
-        backendStore:
-          databaseMigration: true
-          postgres:
-            enabled: true
-            host: "postgres-postgresql.postgres.svc.cluster.local"
-            port: "5432"
-            database: "mlflow"
-            user: "mlflow"
-            password: "mlflow123"
-        
-        # MLflow Configuration
-        image:
-          repository: "ghcr.io/mlflow/mlflow"
-          tag: "v2.9.2-py310"
-        
-
-        
-        service:
-          type: "ClusterIP"
-          port: "5000"
-        
-        ingress:
-          enabled: true
-          className: "nginx"
-          hosts:
-            - host: "mlflow.local"
-              paths:
-                - path: "/"
-                  pathType: "Prefix"
-
-  # REQUIRED: Destination specifies WHERE to deploy
+  sources:
+    - repoURL: https://community-charts.github.io/helm-charts
+      chart: mlflow
+      targetRevision: 1.8.1
+      helm:
+        valueFiles:
+          - $values/Mlflow/values.yaml
+    - repoURL: https://github.com/sawsansalah/mlops-gitops.git
+      targetRevision: main
+      ref: values
   destination:
-    server: "https://kubernetes.default.svc"  # Current cluster
-    namespace: "mlflow"  # Namespace to deploy MLflow into
-
+    server: https://kubernetes.default.svc
+    namespace: mlflow
   syncPolicy:
     automated:
       prune: true
