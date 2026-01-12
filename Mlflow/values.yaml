@@ -453,7 +453,7 @@ extraFlags: []
   # artifactsOnly
 
 # -- Extra environment variables
-extraEnvVars: {}
+extraEnvVars: 
   # MLFLOW_S3_IGNORE_TLS: true  # Skip TLS certificate verification for S3
   # MLFLOW_S3_UPLOAD_EXTRA_ARGS: '{"ServerSideEncryption": "aws:kms", "SSEKMSKeyId": "1234"}'  # Extra S3 upload arguments
   # AWS_DEFAULT_REGION: my_region  # AWS default region
@@ -465,6 +465,7 @@ extraEnvVars: {}
   # MLFLOW_SQLALCHEMYSTORE_POOL_SIZE: 10  # SQLAlchemy connection pool size
   # MLFLOW_SQLALCHEMYSTORE_MAX_OVERFLOW: 20  # SQLAlchemy max overflow connections
   # MLFLOW_SQLALCHEMYSTORE_POOL_RECYCLE: 3600  # SQLAlchemy pool recycle time
+  MLFLOW_SERVER_ALLOWED_HOSTS: "*"  # Allowed hosts for the mlflow server
 
 # -- Extra secrets for environment variables
 extraSecretNamesForEnvFrom: []
