@@ -146,9 +146,9 @@ backendStore:
     # -- Postgres service port
     port: 5432 # required
     # -- mlflow database name created before in the postgres instance
-    database: "mlflow_db" # required
+    database: "mlflow" # required
     # -- postgres database user name which can access to mlflow database
-    user: "mlflow_user" # required
+    user: "mlflow" # required
     # -- postgres database user password which can access to mlflow database
     password: "mlflow123" # required
     # -- postgres database connection driver. e.g.: "psycopg2"
