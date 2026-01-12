@@ -1,36 +1,42 @@
-global:
-  postgresql:
-    auth:
-      postgresPassword: "postgres123"  # Admin postgres password
-      username: "mlflow"                # MLflow database user
-      password: "mlflow123"             # MLflow user password
-      database: "mlflow_db"             # MLflow database name
-
 postgresql:
   auth:
-    postgresPassword: "postgres123"
+    postgresPassword: "mlflow_password"
     username: "mlflow"
     password: "mlflow123"
-    database: "mlflow_db"
+    database: "mlflow"
+    enablePostgresUser: true
+  
   primary:
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: ""
+    
     initdb:
       scripts:
         init.sql: |
-          -- This ensures the mlflow database and user are created
-          CREATE DATABASE mlflow_db;
-          CREATE USER mlflow WITH PASSWORD 'mlflow123';
-          GRANT ALL PRIVILEGES ON DATABASE mlflow_db TO mlflow;
+          -- Connect to mlflow database
+          \c mlflow
           
-          \c mlflow_db
+          -- Grant full permissions to mlflow user on public schema
           GRANT ALL ON SCHEMA public TO mlflow;
+          GRANT CREATE ON SCHEMA public TO mlflow;
+          ALTER SCHEMA public OWNER TO mlflow;
+          ALTER DATABASE mlflow OWNER TO mlflow;
+          
+          -- Grant privileges on all current and future objects
+          GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO mlflow;
+          GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO mlflow;
+          ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO mlflow;
+          ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO mlflow;
+  
   replication:
     enabled: false
+  
+  metrics:
+    enabled: false
+  
   service:
     type: ClusterIP
     ports:
       postgresql: 5432
-  persistence:
-    enabled: true
-    size: 2Gi
-    storageClass: ""  # Optional: set your StorageClass if needed
-
