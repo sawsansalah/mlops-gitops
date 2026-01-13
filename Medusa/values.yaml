@@ -74,10 +74,10 @@ affinity: {}
 # Medusa Configuration
 medusa:
   # JWT Secret - REQUIRED
-  jwtSecret: "ridiculous"
+  jwtSecret: "change-me-to-something-secure"
   
   # Cookie Secret - REQUIRED
-  cookieSecret: "ridiculous"
+  cookieSecret: "change-me-to-something-secure"
   
   # Admin CORS
   adminCors: "http://localhost:7001,http://localhost:9000"
@@ -105,6 +105,11 @@ medusa:
 # PostgreSQL subchart configuration
 postgresql:
   enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 16.2.0-debian-12-r14
+    pullPolicy: IfNotPresent
   auth:
     username: medusa
     password: medusa
@@ -117,10 +122,18 @@ postgresql:
       requests:
         memory: 256Mi
         cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
 
 # Redis subchart configuration
 redis:
   enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 7.2.4-debian-12-r9
+    pullPolicy: IfNotPresent
   auth:
     enabled: false
   master:
@@ -131,6 +144,9 @@ redis:
       requests:
         memory: 128Mi
         cpu: 100m
+      limits:
+        memory: 256Mi
+        cpu: 200m
 
 # Persistent Volume for uploads/media
 persistence:
