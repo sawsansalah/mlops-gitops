@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ include "medusa.fullname" . }}-uploads
   labels:
-    {{- include "medusa.labels" . | nindent 4 }}
+{{ include "medusa.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode }}
