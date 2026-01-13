@@ -1,0 +1,25 @@
+apiVersion: v2
+name: medusa
+description: A Helm chart for Medusa.js e-commerce platform
+type: application
+version: 0.1.0
+appVersion: "2.12.5"
+keywords:
+  - medusa
+  - ecommerce
+  - nodejs
+home: https://medusajs.com
+sources:
+  - https://github.com/medusajs/medusa
+maintainers:
+  - name: Your Name
+    email: your-email@example.com
+dependencies:
+  - name: postgresql
+    version: 12.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 17.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabledtemplates/deployment.yamltemplates/deployment.yaml
