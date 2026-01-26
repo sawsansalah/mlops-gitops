@@ -1,13 +1,17 @@
-# values.yaml
 replicaCount: 1
+
+image:
+  repository: burakince/mlflow
+  pullPolicy: IfNotPresent
+  tag: ""
 
 backendStore:
   databaseMigration: true
   databaseConnectionCheck: true
+  defaultSqlitePath: ":memory:"
   
   postgres:
     enabled: true
-    # ✅ Use fully qualified DNS name: <service>.<namespace>.svc.cluster.local
     host: "postgres-postgresql.postgres.svc.cluster.local"
     port: 5432
     database: "mlflow"
@@ -15,23 +19,31 @@ backendStore:
     password: "mlflow123"
     driver: "psycopg2"
 
-# ✅ Disable bundled PostgreSQL since you're using external one
 postgresql:
   enabled: false
 
 artifactRoot:
   proxiedArtifactStorage: true
+  defaultArtifactRoot: "./mlruns"
+  defaultArtifactsDestination: "./mlartifacts"
+  
   s3:
     enabled: true
     bucket: "mlflow-artifacts"
+    path: ""
     awsAccessKeyId: "devops"
     awsSecretAccessKey: "admin@12345"
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: http://s3-minio.local/
-  AWS_DEFAULT_REGION: us-east-1
+  MLFLOW_S3_ENDPOINT_URL: "http://s3-minio.local/"
+  AWS_DEFAULT_REGION: "us-east-1"
   MLFLOW_S3_IGNORE_TLS: "true"
   MLFLOW_SERVER_ALLOWED_HOSTS: "*"
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
 
 ingress:
   enabled: true
