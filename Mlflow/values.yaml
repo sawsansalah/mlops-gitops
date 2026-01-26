@@ -1,76 +1,37 @@
+# values.yaml
 replicaCount: 1
-
-image:
-  repository: burakince/mlflow
-  pullPolicy: IfNotPresent
-  tag: ""
-
-strategy:
-  type: "RollingUpdate"
-  rollingUpdate:
-    maxSurge: "100%"
-    maxUnavailable: 0
 
 backendStore:
   databaseMigration: true
   databaseConnectionCheck: true
-  defaultSqlitePath: ":memory:"
   
   postgres:
     enabled: true
-    host: "postgres-postgresql"
+    # ✅ Use fully qualified DNS name: <service>.<namespace>.svc.cluster.local
+    host: "postgres-postgresql.postgres.svc.cluster.local"
     port: 5432
     database: "mlflow"
     user: "mlflow"
     password: "mlflow123"
     driver: "psycopg2"
 
-# ✅ ENABLE PostgreSQL
+# ✅ Disable bundled PostgreSQL since you're using external one
 postgresql:
-  enabled: true
-  architecture: standalone
-  
-  image:
-    repository: bitnamilegacy/postgresql
-  
-  auth:
-    username: "mlflow"
-    password: "mlflow123"
-    database: "mlflow"
-  
-  primary:
-    service:
-      ports:
-        postgresql: 5432
-    persistence:
-      enabled: true
-      size: 8Gi
+  enabled: false
 
 artifactRoot:
   proxiedArtifactStorage: true
-  defaultArtifactRoot: "./mlruns"
-  defaultArtifactsDestination: "./mlartifacts"
-  
   s3:
     enabled: true
     bucket: "mlflow-artifacts"
-    path: ""
-    # ✅ USE CORRECT MinIO CREDENTIALS
     awsAccessKeyId: "devops"
     awsSecretAccessKey: "admin@12345"
 
-# ✅ CORRECTED ENVIRONMENT VARIABLES
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: http://s3-minio.local/  # Changed from console-minio.local
+  MLFLOW_S3_ENDPOINT_URL: http://s3-minio.local/
   AWS_DEFAULT_REGION: us-east-1
   MLFLOW_S3_IGNORE_TLS: "true"
   MLFLOW_SERVER_ALLOWED_HOSTS: "*"
-
-service:
-  enabled: true
-  type: ClusterIP
-  port: 80
-  containerPort: 5000
 
 ingress:
   enabled: true
@@ -88,15 +49,3 @@ extraVolumes:
 extraVolumeMounts:
   - name: mlflow-data
     mountPath: /mlflow
-
-livenessProbe:
-  initialDelaySeconds: 10
-  periodSeconds: 30
-  timeoutSeconds: 3
-  failureThreshold: 5
-
-readinessProbe:
-  initialDelaySeconds: 10
-  periodSeconds: 30
-  timeoutSeconds: 3
-  failureThreshold: 5
