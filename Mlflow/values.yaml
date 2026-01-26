@@ -8,8 +8,6 @@ image:
 backendStore:
   databaseMigration: true
   databaseConnectionCheck: true
-  defaultSqlitePath: ":memory:"
-  
   postgres:
     enabled: true
     host: "postgres-postgresql.postgres.svc.cluster.local"
@@ -24,9 +22,6 @@ postgresql:
 
 artifactRoot:
   proxiedArtifactStorage: true
-  defaultArtifactRoot: "./mlruns"
-  defaultArtifactsDestination: "./mlartifacts"
-  
   s3:
     enabled: true
     bucket: "mlflow-artifacts"
@@ -34,7 +29,9 @@ artifactRoot:
     awsAccessKeyId: "devops"
     awsSecretAccessKey: "admin@12345"
 
+# ✅ CRITICAL: Directly set the backend store URI
 extraEnvVars:
+  MLFLOW_BACKEND_STORE_URI: "postgresql+psycopg2://mlflow:mlflow123@postgres-postgresql.postgres.svc.cluster.local:5432/mlflow"
   MLFLOW_S3_ENDPOINT_URL: "http://s3-minio.local/"
   AWS_DEFAULT_REGION: "us-east-1"
   MLFLOW_S3_IGNORE_TLS: "true"
